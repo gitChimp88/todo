@@ -4,32 +4,37 @@ export default class TodoItems extends React.Component {
 	
 	constructor(){
 		super()
-		//this.createTasks = this.createTasks.bind(this)
-		//this.delete = this.delete.bind(this)
 		
+		this.state = {
+			cross: false
+		}
 	}
 	
-	/*
-	createTasks(item, i){
-		return <li key = {i}>{item.text}</li>
-	}*/
-	
-	//we can pass the mapping to a function or do it seperately
-	/*if we pass it to a function we can bind it in the constructor as commented*/
 	
      delete(key) {
 		 this.props.delete(key)
 	 }
 	
-	
+	line(key) {
+		var st = this.state.cross;
+		this.setState({cross: !st})
+		this.props.line(key)
+	}
 	
 	render() {
 		
 		var items = this.props.entry
-		//var listItems = items.map(this.createTasks)
+	
+		let style = {
+			textDecoration: 'line-through'
+		}
 		
 		var listItems = items.map((item, i)=>{
-			return <div> <li >{item.text}</li><button onClick={() => this.delete(item.key)} key = {item.key}>delete</button></div>
+			 if(item.line == true){
+				 return <div> <button onClick={() => this.line(item.key)} key = {item.key}>Done</button><li style={style}>{item.text}  <button onClick={() => this.delete(item.key)} key = {item.key}>X</button></li></div>
+			 }
+			return <div><button onClick={() => this.line(item.key)} key = {item.key}>Done</button> <li>{item.text}<button onClick={() => this.delete(item.key)} key = {item.key}>X</button></li></div>
+			
 		})
 			
 		return(

@@ -14,14 +14,14 @@ export default class App extends React.Component {
 	
 	
 	addItem(e) {
-		debugger
 		e.preventDefault();
 		
 		var arr = this.state.items
 		
 		if(this.refs.input.value !== "") {
 			arr.push({text: this.refs.input.value,
-					 key: Date.now()})
+					 key: Date.now(),
+					 line: false})
 		
 		
 		  this.setState({items: arr})
@@ -40,6 +40,20 @@ export default class App extends React.Component {
 		})
 	}
 	
+	lineThrough(key){
+		this.state.items.map((val)=>{
+			if(val.key == key) {
+				if(val.line == false){
+					val.line = true
+				} else {
+					val.line = false
+				}
+			}
+		})
+	}
+	
+	
+	
    render(){
 	   return(
 			<div className='todoListMain' id="container">
@@ -51,21 +65,12 @@ export default class App extends React.Component {
 			   </div>
 			   <TodoItems entry={this.state.items}
 				   		  delete={this.deleteItem.bind(this)}
+						 line = {this.lineThrough.bind(this)}
 				   />
 		   </div>
 	   )
    }
 } 
 
-/*
-Create a todo app according to the following requirements:
-
-- it needs to have a input field. 
-- it needs to have a submit button 
-- you need to be able to submit pressing the button but also pressing enter 
-- you need to be able to remove todo clicking on a trashcan icon or something as obvious
-- the delete icon needs to be hidden until hovering on the todo.
-- you need to be able to mark todos as done with a line through or something as obvious.
-*/
 
 
